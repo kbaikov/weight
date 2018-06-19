@@ -13,12 +13,36 @@
         <title>Weight Table</title>
     </head>
     <body>
+      <script src="https://cdn.plot.ly/plotly-1.5.0.min.js"></script>
 
-        <div class="container">
-            <h1>Weight</h1>
+      <h1>Weight Chart</h1>
+      <div id="container"> </div>
+            <script>
+              var trace1 = {
+                x: [1, 2, 3, 4],
+                y: [10, 15, 13, 17],
+                mode: 'markers',
+                type: 'scatter'
+              };
 
-            <img src="figure_1.png"  class="img-responsive" alt="Weight">
+              var trace2 = {
+                x: [2, 3, 4, 5],
+                y: [16, 5, 11, 9],
+                mode: 'lines',
+                type: 'scatter'
+              };
 
+              var trace3 = {
+                x: [1, 2, 3, 4],
+                y: [12, 9, 15, 12],
+                mode: 'lines+markers',
+                type: 'scatter'
+              };
+
+              var data = [trace1, trace2, trace3];
+
+              Plotly.newPlot('container', data);
+            </script>
 
         <h3>Weight Table</h3>
         <table class="table-condensed table table-stripped table-bordered table-sm table-hover">
