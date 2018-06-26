@@ -54,7 +54,7 @@
       }],
     };
 
-    Plotly.d3.csv("fitnesspal_df_latest.csv", function (err, rawData) {
+    Plotly.d3.csv("result.csv", function (err, rawData) {
       if (err) throw err;
 
       var data = prepData(rawData);
@@ -64,7 +64,8 @@
           rangeselector: selectorOptions,
         },
         yaxis: {
-          autorange: true
+          autorange: true,
+          showgrid: true
         }
       };
 
@@ -84,7 +85,8 @@
       return [{
         mode: 'lines',
         x: x,
-        y: y
+        y: y,
+        connectgaps: true
       }];
     }
   </script>
