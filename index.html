@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
     body {
       margin: 0 100;
@@ -80,82 +80,74 @@
         header: {
           values: headerValues,
           align: "center",
-          < !--line: { width: 1 }, -->
-          < !--fill: { color: ['rgb(235, 100, 230)'] }, -->
         },
-      cells: {
-        values: cellValues,
-        align: ["center", "center"],
-          < !--line: { color: "black", width: 1 }, -->
-          < !--fill: { color: ['rgb(235, 193, 238)', 'rgba(228, 222, 249, 0.65)'] }, -->
+        cells: {
+          values: cellValues,
+          align: ["center", "center"],
         },
-      xaxis: 'x',
-      yaxis: 'y',
-      domain: { x: [0, 1], y: [0, 0.5] }
+        xaxis: 'x',
+        yaxis: 'y',
+        domain: { x: [0, 1], y: [0, 0.5] }
       }
 
       // create 1st plot
       var trace1 = {
-      x: unpack(rows, 'date'),
-      y: unpack(rows, 'weight'),
-      xaxis: 'x1',
-      yaxis: 'y1',
-      mode: 'lines',
-        < !--line: { width: 2, color: '#9748a1' }, -->
-      name: 'Weight',
+        x: unpack(rows, 'date'),
+        y: unpack(rows, 'weight'),
+        xaxis: 'x1',
+        yaxis: 'y1',
+        mode: 'lines',
+        name: 'Weight',
         connectgaps: true
       }
 
-    // create 2nd plot
-    var trace2 = {
-      x: unpack(rows, 'date'),
-      y: unpack(rows, 'BMI Prime'),
-      xaxis: 'x2',
-      yaxis: 'y2',
-      mode: 'lines',
-        < !--line: { width: 2, color: '#b04553' }, -->
-      name: 'BMI Prime'
+      // create 2nd plot
+      var trace2 = {
+        x: unpack(rows, 'date'),
+        y: unpack(rows, 'BMI Prime'),
+        xaxis: 'x2',
+        yaxis: 'y2',
+        mode: 'lines',
+        name: 'BMI Prime'
       }
 
-    // create 3rd plot
-    var trace3 = {
-      x: unpack(rows, 'date'),
-      y: unpack(rows, 'BMI'),
-      xaxis: 'x3',
-      yaxis: 'y3',
-      mode: 'lines',
-      line: { width: 2, color: '#af7bbd' },
-      name: 'BMI'
-    }
-
-    var data = [table, trace1]
-
-    // define subplot axes
-    var axis = {
-      showline: true,
-      zeroline: false,
-      showgrid: true,
-      mirror: true,
-      ticklen: 9,
-        < !--gridcolor: '#ffffff', -->
-        < !--tickfont: { size: 10 }, -->
+      // create 3rd plot
+      var trace3 = {
+        x: unpack(rows, 'date'),
+        y: unpack(rows, 'BMI'),
+        xaxis: 'x3',
+        yaxis: 'y3',
+        mode: 'lines',
+        line: { width: 2, color: '#af7bbd' },
+        name: 'BMI'
       }
 
-    var axis1 = { domain: [0, 1], anchor: 'y1', rangeselector: selectorOptions, autorange: true }
-    var axis4 = {
-      domain: [0.60, 0.98], anchor: 'x1', autorange: true, showgrid: true, showline: true, gridcolor: '#bdbdbd',
-      gridwidth: 1,
-    }
+      var data = [table, trace1]
 
-    // define layout
-    var layout = {
-      title: "Weight",
-      height: 1000,
-      xaxis1: Object.assign(axis1, axis),
-      yaxis1: Object.assign(axis4, axis),
-    }
+      // define subplot axes
+      var axis = {
+        showline: true,
+        zeroline: false,
+        showgrid: true,
+        mirror: true,
+        ticklen: 9,
+      }
 
-    Plotly.plot('container', data, layout);
+      var axis1 = { domain: [0, 1], anchor: 'y1', rangeselector: selectorOptions, autorange: true }
+      var axis4 = {
+        domain: [0.60, 0.98], anchor: 'x1', autorange: true, showgrid: true, showline: true, gridcolor: '#bdbdbd',
+        gridwidth: 1,
+      }
+
+      // define layout
+      var layout = {
+        title: "Weight",
+        height: 1000,
+        xaxis1: Object.assign(axis1, axis),
+        yaxis1: Object.assign(axis4, axis),
+      }
+
+      Plotly.plot('container', data, layout);
     });
 
 
