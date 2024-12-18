@@ -52,94 +52,67 @@
       if (err) throw err;
 
       function unpack(rows, key) {
-        return rows.map(function (row) { return row[key]; });
+      return rows.map(row => row[key]);
       }
 
-      // header values
-      var headerNames = Plotly.d3.keys(rows[0]);
-      var headerValues = [headerNames[0], headerNames[1], headerNames[2], headerNames[3], headerNames[4], headerNames[5], headerNames[6], headerNames[7]];
+      // Sort rows by date in descending order
+      rows.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-      // cell values
-      var cellValues = [];
-      for (i = 0; i < headerValues.length; i++) {
-        cellValue = unpack(rows, headerValues[i]);
-        cellValues[i] = cellValue;
-      }
+      var headerValues = Plotly.d3.keys(rows[0]);
+      var cellValues = headerValues.map(header => unpack(rows, header));
 
-      // create table
       var table = {
-        type: 'table',
-        columnwidth: [200, 200, 200, 200, 200, 200, 200, 200],
-        columnorder: [0, 1, 2, 3, 4, 5, 6, 7],
-        header: {
-          values: headerValues,
-          align: "center",
-        },
-        cells: {
-          values: cellValues,
-          align: ["center", "center"],
-        },
-        xaxis: 'x',
-        yaxis: 'y',
-        domain: { x: [0, 1], y: [0, 0.5] }
-      }
+      type: 'table',
+      columnwidth: Array(headerValues.length).fill(200),
+      columnorder: headerValues.map((_, i) => i),
+      header: {
+        values: headerValues,
+        align: "center",
+      },
+      cells: {
+        values: cellValues,
+        align: "center",
+      },
+      domain: { x: [0, 1], y: [0, 0.5] }
+      };
 
-      // create 1st plot
       var trace1 = {
-        x: unpack(rows, 'date'),
-        y: unpack(rows, 'weight'),
-        xaxis: 'x1',
-        yaxis: 'y1',
-        mode: 'lines',
-        name: 'Weight',
-        connectgaps: true
-      }
+      x: unpack(rows, 'date'),
+      y: unpack(rows, 'weight'),
+      mode: 'lines',
+      name: 'Weight',
+      connectgaps: true
+      };
 
-      // create 2nd plot
-      var trace2 = {
-        x: unpack(rows, 'date'),
-        y: unpack(rows, 'BMI Prime'),
-        xaxis: 'x2',
-        yaxis: 'y2',
-        mode: 'lines',
-        name: 'BMI Prime'
-      }
+      var data = [table, trace1];
 
-      // create 3rd plot
-      var trace3 = {
-        x: unpack(rows, 'date'),
-        y: unpack(rows, 'BMI'),
-        xaxis: 'x3',
-        yaxis: 'y3',
-        mode: 'lines',
-        line: { width: 2, color: '#af7bbd' },
-        name: 'BMI'
-      }
-
-      var data = [table, trace1]
-
-      // define subplot axes
-      var axis = {
+      var layout = {
+      title: "Weight",
+      height: 1000,
+      xaxis: {
+        domain: [0, 1],
+        rangeselector: selectorOptions,
         showline: true,
         zeroline: false,
         showgrid: true,
         mirror: true,
         ticklen: 9,
-      }
-
-      var axis1 = { domain: [0, 1], anchor: 'y1', rangeselector: selectorOptions, autorange: true }
-      var axis4 = {
-        domain: [0.60, 0.98], anchor: 'x1', autorange: true, showgrid: true, showline: true, gridcolor: '#bdbdbd',
+        autorange: true
+      },
+      yaxis: {
+        domain: [0.60, 0.98],
+        showgrid: true,
+        showline: true,
+        gridcolor: '#bdbdbd',
         gridwidth: 1,
+        showline: true,
+        zeroline: false,
+        showgrid: true,
+        mirror: true,
+        ticklen: 9,
+        autorange: true
       }
-
-      // define layout
-      var layout = {
-        title: "Weight",
-        height: 1000,
-        xaxis1: Object.assign(axis1, axis),
-        yaxis1: Object.assign(axis4, axis),
-      }
+      };
 
       Plotly.plot('container', data, layout);
     });
